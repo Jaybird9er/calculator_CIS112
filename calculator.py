@@ -3,68 +3,22 @@ import tkinter as tk
 """
 Author: Jamey Kirk
 Date: 05.20.2021
+Class: CIS 112 - Calculator Project
 
-To Do:
-
-1. Create functions for each button
-2. Create functions for the clear button to clear reset any function
-3. Apply values for num1 and num2 globaly depending on state of calculation
-4. Limit decimal stroke so it only applies one time to each value
-5. All values (num1, num2, arithmetic operators) should be displayed in string form in the calculator display
-6. Need global variables to determine num1, num2, decimal, and operator states
-7. All calulations are conducted using Lambda Functions (num1 and num2 are stored in functions) and can be cleared at anytime
+Descirption: a simple calculator program that utiliizes tkinter for the GUI
 """
 
 """ functions for calculations """
 
-# converts value to negative value
+# converts num1 to negative value
 def isNegative(x):
-    pass
-    # num1
-    # if (num1.get()[0] == "-"):
-    #     return int(num1.get()[0:]) * -1
-    # elif (num2.get()[0] == "-"):
-    #     return int(num2.get()[0:]) * -1
+    
+    if (num1.get()[0] == "-" and floatNum1.get() == True):
+        return float(num1.get()[0:]) * -1
+    elif (num1.get()[0] == "-"):
+        return int(num1.get()[0:]) * -1
 
-    # if (negNum1.get() == True and floatNum1.get() == True):
-    #     print("A")
-    #     return (float(num1.get()[0:]) * -1)
-    # elif(negNum1.get() == True and floatNum1.get() == False):
-    #     print("B")
-    #     return int(num1.get()[0:]) * -1
-    # elif(negNum1.get() == False and floatNum1.get() == True):
-    #     print("C")
-    #     return float(num1.get())
-    # elif(negNum1.get() == False and floatNum1.get() == False):
-    #     print("D")
-    #     return int(num1.get())
-    # # num2
-    # if (negNum2.get() == True and floatNum2.get() == True):
-    #     print("E")
-    #     return float(num2.get()[1:]) * -1
-    # elif(negNum2.get() == True and floatNum2.get() == False):
-    #     print("F")
-    #     return int(num2.get()[1:]) * -1
-    # elif(negNum2.get() == False and floatNum2.get() == True):
-    #     print("G")
-    #     return float(num2.get())
-    # elif(negNum2.get() == False and floatNum2.get() == False):
-    #     print("H")
-    #     return int(num2.get())
-
-
-# completes calculations if numbers are of type int
-# def calcInt():
-#     if(opperator.get() == "+"):
-#         calcView.set(isNegative(num1.get()) + isNegative(num2.get()))
-#     elif (opperator.get() == "-"):
-#         calcView.set(isNegative(num1.get()) - isNegative(num2.get()))
-#     elif (opperator.get() == "*"):
-#         calcView.set(isNegative(num1.get()) * isNegative(num2.get()))
-#     elif (opperator.get() == "/"):
-#         calcView.set(isNegative(num1.get()) / isNegative(num2.get()))
-
-# completes calculations if numbers are of type int
+# completes calculations if both numbers are of type int
 def calcInt():
     if(opperator.get() == "+"):
         calcView.set(int(num1.get()) + int(num2.get()))
@@ -75,7 +29,7 @@ def calcInt():
     elif (opperator.get() == "/"):
         calcView.set(int(num1.get()) / int(num2.get()))
 
-# completes calculations if numbers are of type float
+# completes calculations if any number is of type float
 def calcFloat():
     if(opperator.get() == "+"):
         calcView.set(float(num1.get()) + float(num2.get()))
@@ -99,16 +53,19 @@ def btnFunctions(x):
         clearView()
 
     elif (x == "="):
-        if (floatOrInt.get()):
+        if (isFloat.get()):
             calcFloat()
-            floatOrInt.set(False)
+            isFloat.set(False)
         else:
             calcInt()
 
     # set num1, opperator, num2, and status of decimal point  
     else:
-        if (x == "." and floatOrInt.get() == False):
-            floatOrInt.set(True)
+        if (x == "." and isFloat.get() == False and len(num2.get()) == 0):
+            isFloat.set(True)
+            floatNum1.set(True)
+        elif (x == "." and isFloat.get() == False):
+            isFloat.set(True)
 
         if (x == "+" and len(opperator.get()) == 0):
             opperator.set(x)
@@ -118,51 +75,14 @@ def btnFunctions(x):
             opperator.set(x)
         elif (x == "/" and len(opperator.get()) == 0):
             opperator.set(x)
-
-        # elif (len(num1.get()) == 0 and x == "-" and len(opperator.get()) == 0):
-        #     negNum1.set(True)
-        # elif (len(num2.get()) == 0 and x == "-" and len(opperator.get()) == 1):
-        #     negNum2.set(True)
-
-        # elif (x == "." and floatNum1.get() == False):
-        #     floatNum1.set(True)
-        # elif (x == "." and floatNum2.get() == False):
-        #     floatNum2.set(True)
         
         elif (len(opperator.get()) > 0):
             num2.set(num2.get() + x)
-            print(num2.get())
         else:
             num1.set(num1.get() + x)
-            print(num1.get())
+
         # displays everything on calculator
         calcView.set(num1.get() + opperator.get() + num2.get())
-
-
-# ## functions for calculator buttons
-# def digit1():
-#     global num1
-#     global num2
-#     #if 
-#     num1.set(num1.get() + "1")
-
-# def digit2():
-#     global num2
-#     num2.set(num2.get() + "2")
-
-# def plusBtn():
-#     global opperator
-#     opperator.set("+")
-
-# def equalBtn():
-#     print(int(num1.get()), len(num1.get()), type(num1.get()), type(int(num1.get())))
-
-"""
-May need to use one variable for the dispaly and have it copied into 
-another varible within the functions to convert it to a float value
-
-Seems very complicated, but can't think of a better way at the moment
-"""
 
 """ calculator GUI """
 
@@ -171,23 +91,11 @@ calcWindow.title("Calculator")
 
 ## global variables hold values for calculating, determining decimal count, and operator selection
 num1 = tk.StringVar()
-negNum1 = tk.BooleanVar()
 floatNum1 = tk.BooleanVar()
 num2 = tk.StringVar()
-negNum2 = tk.BooleanVar()
-floatNum2 = tk.BooleanVar()
 opperator = tk.StringVar()
-floatOrInt = tk.BooleanVar()
+isFloat = tk.BooleanVar()
 calcView = tk.StringVar()
-
-
-if(type(num1.get()) != type("")):
-    print(int(num1.get()))
-
-print(type(num1.get()))
-print(type(""))
-print(len(opperator.get()))
-
 
 ## display frame and calculator output display
 displayFrame = tk.Frame (calcWindow, width=400, height=250, bg="blue")
@@ -213,11 +121,9 @@ buttonDiv = tk.Button (displayFrame, text="/", height=2, width=10, fg="blue", bg
 buttonEqu = tk.Button (displayFrame, text="=", height=2, width=10, fg="blue", bg="#55BBDD", activeforeground="#55BBDD", activebackground="blue", font=("Arial", "16"), command=lambda: btnFunctions("="))
 buttonCle = tk.Button (displayFrame, text="Clear", height=2, width=10, fg="blue", bg="#55BBDD", activeforeground="#55BBDD", activebackground="blue", font=("Arial", "16"), command=lambda: btnFunctions("clear"))
 
-## layout frames and buttons
+## apply and layout frames and buttons to window
 displayFrame.grid(row=0, column=3, rowspan=4, columnspan=6)
-#calcFrame.grid(row=0, column=0, columnspan=6, sticky="N, S, E, W")
 calcDispaly.grid(row=0, column=0, columnspan=6, ipady=8, ipadx=65)
-#buttonFrame.pack()
 button1.grid(row=1, column=0)
 button2.grid(row=1, column=1)
 button3.grid(row=1, column=2)
@@ -235,6 +141,5 @@ buttonDot.grid(row=4, column=2)
 buttonDiv.grid(row=4, column=3)
 buttonEqu.grid(row=5, column=0, columnspan=3, sticky="E, W")
 buttonCle.grid(row=5, column=3)
-
 
 calcWindow.mainloop()
